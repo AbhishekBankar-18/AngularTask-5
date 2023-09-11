@@ -1,0 +1,19 @@
+/* .apply{
+    position: fixed;
+    left: 40%;
+    top: 56%;
+}
+h3{
+    position: fixed;
+    left: 35%;
+    top:50%;
+} */
+
+.my-btn {
+   
+    position: absolute;
+    right: 16px;
+    top: 84px;
+    font-size: 18px;
+
+}

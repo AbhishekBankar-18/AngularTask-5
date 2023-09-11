@@ -1,0 +1,112 @@
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+      <div class="staff-name text-capitalize text-center py-4 ">
+          <h3>Mr/Ms. {{currentUser?.fname}} {{currentUser?.lname}}<small class="h6">  ({{currentUser?.desg}})</small></h3>
+          <p class="h5"><small>Department :</small> ({{currentUser?.dept}})</p>
+      </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+
+
+
+    <div *ngIf="!leavLists?.length ;else elsePart">
+      <h3>Not Applied Any leave</h3>
+      <button type="button" class="btn apply  btn-primary" data-toggle="modal" data-target="#myModal">
+        + Apply Leave
+      </button>
+    </div>
+    <ng-template #elsePart>
+      <div class="container py-5">
+        <div class="row text-center font-weight-bolder">
+            <div class="col-md-2 offset-md-2 col-sm-6 ">
+                <h3>{{totalLeave}}</h3>
+                <p>Total Leaves</p>
+            </div>
+            <div class="col-md-2 col-sm-6 text-success ">
+                <h3>{{approveLeaves}}</h3>
+                <p>Approved</p>
+            </div>
+            <div class="col-md-2 col-sm-6 text-danger ">
+                <h3>{{rejectedLeaves}}</h3>
+                <p>Rejected</p>
+            </div>
+            <div class="col-md-2 col-sm-6 text-warning ">
+                <h3>{{pendingLeaves}}</h3>
+                <p>Pending</p>
+            </div>
+        </div>
+        <div class="row ">
+            <div class="col-lg-3 col-md-4 col-sm-6 mt-4" *ngFor="let list of leavLists">
+                <!-- <ng-container > -->
+                    <div class="card">
+                        <div class="card-body font-weight-bolder">
+                            <p>Leaves for : <span class="text-muted">{{list.fDate | date}}</span></p>
+                            <p>Number of Days : <span class="text-muted">{{list.TotalDays}}</span></p>
+                            <hr>
+                            <p>Reason : <span class="text-muted">{{list.lReason }}</span></p>
+                            <hr>
+                            <div *ngIf="list.status === 'pending';else elsePart">
+                                <p>Status : <span class="text-warning text-capitalize">{{list.status}}</span></p>
+
+                            </div>
+                            <ng-template #elsePart>
+                                <p><b>Status : </b> <span [ngClass]="list.status === 'Approved'?'text-success':'text-danger'">{{list.status}}</span></p>
+
+                            </ng-template>
+                        </div>
+                    </div>
+               
+            </div>
+        </div>
+    </div>
+    <button class="btn my-btn btn-primary btn-sm myBtn" data-toggle="modal" data-target="#myModal">+ Apply Leave</button>
+    </ng-template>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="registeredDataLeave" (ngSubmit)="onSubmit()">
+              <div class="row mt-3">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="fDate">From Date</label>
+                    <input type="date" formControlName="fDate" name="fDate" id="fDate" class="form-control">
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="tDate">To Date</label>
+                    <input type="date" formControlName="tDate" name="tDate" id="tDate" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="section">Reason</label>
+                    <textarea name="section" id="section" formControlName="section" class="form-control"
+                      rows="4"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary text-center b1">Apply Leave</button>
+                <button type="button" class="btn b2 btn-danger text-center" data-dismiss="modal">Close</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
